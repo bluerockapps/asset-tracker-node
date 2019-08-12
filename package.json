@@ -1,0 +1,32 @@
+{
+  "name": "field-asset-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/bluerockapps/field-asset-node.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/bluerockapps/field-asset-node/issues"
+  },
+  "homepage": "https://gitlab.com/bluerockapps/field-asset-node#readme",
+  "dependencies": {
+    "base64-img": "^1.0.4",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "node-thumbnail": "^0.15.0",
+    "pg": "^7.11.0",
+    "stripe": "^7.2.0",
+    "xero-node": "^3.0.21"
+  }
+}
