@@ -6,7 +6,7 @@ module.exports = function(app, client, VerifyToken) {
                 +'a.yard_id, c.category, s.status, c.id as category_id, m.id as image, '
                 +'m.file_name, s.id as status_id FROM public.asset a '
                 +'LEFT JOIN public.category c ON a.category_id = c.id '
-                +'LEFT JOIN public.status s ON a.status_id = s.id '
+                +'LEFT JOIN public.asset_status s ON a.status_id = s.id '
                 +'LEFT JOIN public.media m ON a.category_id = m.category_id '
                 +'WHERE a.tenant_id = ($1) AND a.date_archived is null',
       [req.query.tenant_id],(err, respon) => {
@@ -24,7 +24,7 @@ module.exports = function(app, client, VerifyToken) {
                 +'m.file_name, s.id as status_id, y.name as yard_name '
                 +'FROM public.asset a '
                 +'LEFT JOIN public.category c ON a.category_id = c.id '
-                +'LEFT JOIN public.status s ON a.status_id = s.id '
+                +'LEFT JOIN public.asset_status s ON a.status_id = s.id '
                 +'LEFT JOIN public.media m ON a.category_id = m.category_id '
                 +'LEFT JOIN public.yard y ON a.yard_id = y.id '
                 +'WHERE a.tenant_id = ($1) AND a.yard_id = ($2) AND a.date_archived is null',
