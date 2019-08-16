@@ -1,4 +1,5 @@
 module.exports = function(app, client, bluerockappsAPI, VerifyToken) {
+  
   const jwt    = require('jsonwebtoken');
   const bcrypt = require('bcryptjs');
 
