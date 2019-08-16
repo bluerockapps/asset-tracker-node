@@ -1,8 +1,7 @@
 module.exports = function(app, client, VerifyToken) {
 
   const WriteProfile = require('../controllers/write-profile');
-
-  const config = require('../../config');
+  const config       = require('../../config');
 
   // Get user by email
   app.get('/user/email', VerifyToken, (req, res) => {

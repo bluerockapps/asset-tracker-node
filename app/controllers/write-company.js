@@ -20,6 +20,4 @@ function writeCompany(req, res, next) {
   });
 }
 
-
-
 module.exports = writeCompany;

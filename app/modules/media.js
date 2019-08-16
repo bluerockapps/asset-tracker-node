@@ -1,6 +1,6 @@
 module.exports = function(app, client, VerifyToken) {
 
-  const WriteMedia = require('../controllers/write-media');
+  const WriteMedia   = require('../controllers/write-media');
   const WriteProfile = require('../controllers/write-profile');
   const WriteCompany = require('../controllers/write-company');
 

@@ -19,11 +19,8 @@ module.exports = function(app, client, VerifyToken) {
                 +'VALUES ($1,$2,$3,$4)', 
                 [req.body.status, req.body.tenant_id, new Date(), req.body.user_id], 
       (err, respon) => {
-      if (err){
-        console.log(err)
+      if (err)
         res.status(500).send('Failed to create status.');
-      }
-        
       else
         res.status(200).send(respon.rows);
     });

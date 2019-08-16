@@ -20,6 +20,4 @@ function writeProfile(req, res, next) {
   });
 }
 
-
-
 module.exports = writeProfile;
