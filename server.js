@@ -4,14 +4,10 @@ const bodyParser        = require('body-parser');
 const cookieParser      = require('cookie-parser');
 const cors              = require('cors')
 const { Pool, Client }  = require('pg');
-// const XeroClient        = require('xero-node').AccountingAPIClient;
 const config            = require('./config');
 const app               = express();
 const serveStatic       = require('serve-static');
-// const stripe            = require('stripe')('sk_test_iNu0RRvzmGevtitxbB7NPHAz00t8CvbrOr');
 const fs                = require('fs');
-// const jwt               = require('jsonwebtoken');
-// const bcrypt            = require('bcryptjs');
 
 //database
 const pg = new Client({
@@ -22,14 +18,6 @@ const pg = new Client({
   port:     config.database.port,
 })
 pg.connect();
-
-//xero
-// const xeroClient = new XeroClient({
-//   appType:        config.xero.appType,
-//   consumerKey:    config.xero.consumerKey,
-//   consumerSecret: config.xero.consumerSecret,
-//   privateKeyPath: config.xero.privateKeyPath
-// })
 
 var bluerockappsAPI = config.bluerockappsAPI;
   
@@ -49,7 +37,6 @@ app.use(express.static('assets'));
 
 //routes
 require('./app/routes')(app, pg, bluerockappsAPI);
-// require('./app/routes')(app, client, xeroClient, stripe);
 
 // server run
 const port = 8000;
