@@ -17,6 +17,31 @@ module.exports = function(app, client, VerifyToken) {
     });
   });
 
+  // Get one asset
+  app.get('/asset/', VerifyToken, (req, res) => {
+    client.query('SELECT name, unit_number, category_id, status_id FROM public.asset '
+                +'WHERE id = ($1)',
+      [req.query.id],(err, respon) => {
+      if (err) {
+        return res.status(500).send("There was a problem getting assets.")
+    } else 
+        res.send(respon.rows[0]); 
+    });
+  });
+
+  // Get asset vitals
+  app.get('/asset/vitals', VerifyToken, (req, res) => {
+    client.query('SELECT * FROM public.asset_vitals '
+                +'WHERE asset_id = ($1)',
+      [req.query.id],(err, respon) => {
+      if (err) {
+        return res.status(500).send("There was a problem getting the assets vitals.")
+    } else {
+        res.send(respon.rows[0]); }
+    });
+  });
+
+
   // Get yard assets
   app.get('/asset/yard/read', VerifyToken, (req, res) => {
     client.query('SELECT a.id, a.name, a.unit_number, a.lat, a.lng, a.date_created, '
@@ -79,6 +104,7 @@ module.exports = function(app, client, VerifyToken) {
 
   // Update asset
   app.put('/asset/update', VerifyToken, (req, res) => {
+    console.log(req.body)
     var query = 'UPDATE public.asset SET name = ($2), unit_number = ($3), '
                 +'category_id = ($4), status_id = ($5) WHERE id = ($1)'
     client.query(query, [req.body.id, req.body.name, req.body.unit_number,
