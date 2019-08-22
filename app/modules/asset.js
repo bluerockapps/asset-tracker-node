@@ -31,16 +31,60 @@ module.exports = function(app, client, VerifyToken) {
 
   // Get asset vitals
   app.get('/asset/vitals', VerifyToken, (req, res) => {
-    client.query('SELECT * FROM public.asset_vitals '
+    console.log(req.query.id)
+    client.query('SELECT v.id, v. purchase_date, v.capital_cost, v.maintenance_cost, '
+                +'v.hours_billed, v.hours_worked, v.asset_id, ' 
+                +'a.lat, a.lng FROM public.asset_vitals v '
+                +'LEFT JOIN public.asset a ON a.id = v.asset_id '
                 +'WHERE asset_id = ($1)',
       [req.query.id],(err, respon) => {
       if (err) {
+        console.log(err)
         return res.status(500).send("There was a problem getting the assets vitals.")
     } else {
+      console.log(respon.rows[0])
         res.send(respon.rows[0]); }
     });
   });
 
+  //Get asset by status_id
+
+  app.get('/asset/status', VerifyToken, (req, res) => {
+    client.query('SELECT a.id, a.name, a.unit_number, a.lat, a.lng, a.date_created, '
+                +'a.yard_id, c.category, s.status, c.id as category_id, m.id as image, '
+                +'m.file_name, s.id as status_id FROM public.asset a '
+                +'LEFT JOIN public.category c ON a.category_id = c.id '
+                +'LEFT JOIN public.asset_status s ON a.status_id = s.id '
+                +'LEFT JOIN public.media m ON a.category_id = m.category_id '
+                +'WHERE a.status_id = ($1) AND a.date_archived is null',
+      [req.query.id],(err, respon) => {
+      if (err) {
+        return res.status(500).send("There was a problem getting statuses.")
+    } else {
+      console.log(respon.rows)
+        res.send(respon.rows); }
+    });
+  });
+
+  //Get asset by category_id
+
+  app.get('/asset/category', VerifyToken, (req, res) => {
+    client.query('SELECT a.id, a.name, a.unit_number, a.lat, a.lng, a.date_created, '
+                +'a.yard_id, c.category, s.status, c.id as category_id, m.id as image, '
+                +'m.file_name, s.id as status_id FROM public.asset a '
+                +'LEFT JOIN public.category c ON a.category_id = c.id '
+                +'LEFT JOIN public.asset_status s ON a.status_id = s.id '
+                +'LEFT JOIN public.media m ON a.category_id = m.category_id '
+                +'WHERE a.category_id = ($1) AND a.date_archived is null',
+      [req.query.id],(err, respon) => {
+      if (err) {
+        console.log(err)
+        return res.status(500).send("There was a problem getting categories.")
+    } else {
+      console.log(respon.rows)
+        res.send(respon.rows); }
+    });
+  });
 
   // Get yard assets
   app.get('/asset/yard/read', VerifyToken, (req, res) => {
