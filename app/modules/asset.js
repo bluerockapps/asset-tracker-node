@@ -205,9 +205,9 @@ module.exports = function(app, client, VerifyToken) {
 
   // Delete asset from map
   app.put('/asset/map/delete', VerifyToken, (req, res) => {
-    var query = 'UPDATE public.asset SET lat = ($1), lng = ($2), yard_id = ($3) '
-               +'WHERE id = ($4)'
-    client.query(query, [req.body.lat, req.body.lng, 1, req.body.id], (err, respon) => {
+    var query = 'UPDATE public.asset SET lat = ($1), lng = ($2), yard_id = ($3), status_id = ($4) '
+               +'WHERE id = ($5)'
+    client.query(query, [req.body.lat, req.body.lng, 1, 22, req.body.id], (err, respon) => {
       if (err)
         res.status(500).send('Failed to add asset to map.');
       else
