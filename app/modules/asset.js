@@ -31,19 +31,16 @@ module.exports = function(app, client, VerifyToken) {
 
   // Get asset vitals
   app.get('/asset/vitals', VerifyToken, (req, res) => {
-    console.log(req.query.id)
     client.query('SELECT v.id, v. purchase_date, v.capital_cost, v.maintenance_cost, '
                 +'v.hours_billed, v.hours_worked, v.asset_id, ' 
                 +'a.lat, a.lng FROM public.asset_vitals v '
                 +'LEFT JOIN public.asset a ON a.id = v.asset_id '
                 +'WHERE asset_id = ($1)',
       [req.query.id],(err, respon) => {
-      if (err) {
-        console.log(err)
+      if (err)
         return res.status(500).send("There was a problem getting the assets vitals.")
-    } else {
-      console.log(respon.rows[0])
-        res.send(respon.rows[0]); }
+      else 
+        res.send(respon.rows[0]); 
     });
   });
 
@@ -167,6 +164,31 @@ module.exports = function(app, client, VerifyToken) {
     client.query(query, [new Date(), req.body.user_id, req.body.id], (err, respon) => {
       if (err)
         res.status(500).send('Failed to delete asset.');
+      else
+        res.status(200).send(respon.rows);
+    });
+  });
+
+  // Add asset to map
+  app.put('/asset/map/add', VerifyToken, (req, res) => {
+    console.log(req.body)
+    var query = 'UPDATE public.asset SET lat = ($1), lng = ($2), yard_id = ($3) '
+               +'WHERE id = ($4)'
+    client.query(query, [req.body.lat, req.body.lng, null, req.body.id], (err, respon) => {
+      if (err)
+        res.status(500).send('Failed to add asset to map.');
+      else
+        res.status(200).send(respon.rows);
+    });
+  });
+
+  // Delete asset from map
+  app.put('/asset/map/delete', VerifyToken, (req, res) => {
+    var query = 'UPDATE public.asset SET lat = ($1), lng = ($2), yard_id = ($3) '
+               +'WHERE id = ($4)'
+    client.query(query, [req.body.lat, req.body.lng, 1, req.body.id], (err, respon) => {
+      if (err)
+        res.status(500).send('Failed to add asset to map.');
       else
         res.status(200).send(respon.rows);
     });
