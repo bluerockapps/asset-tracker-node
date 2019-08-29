@@ -33,7 +33,7 @@ module.exports = function(app, client, VerifyToken) {
   app.get('/asset/vitals', VerifyToken, (req, res) => {
     client.query('SELECT v.id, v. purchase_date, v.capital_cost, v.maintenance_cost, '
                 +'v.hours_billed, v.hours_worked, v.asset_id, v.current_address, v.nearest_city, ' 
-                +'a.lat, a.lng FROM public.asset_vitals v '
+                +'a.lat, a.lng, a.unit_number FROM public.asset_vitals v '
                 +'LEFT JOIN public.asset a ON a.id = v.asset_id '
                 +'WHERE asset_id = ($1)',
       [req.query.id],(err, respon) => {
@@ -193,9 +193,9 @@ module.exports = function(app, client, VerifyToken) {
   // Add asset to map
   app.put('/asset/map/add', VerifyToken, (req, res) => {
     console.log(req.body)
-    var query = 'UPDATE public.asset SET lat = ($1), lng = ($2), yard_id = ($3) '
-               +'WHERE id = ($4)'
-    client.query(query, [req.body.lat, req.body.lng, null, req.body.id], (err, respon) => {
+    var query = 'UPDATE public.asset SET lat = ($1), lng = ($2), yard_id = ($3), status_id = ($4) '
+               +'WHERE id = ($5)'
+    client.query(query, [req.body.lat, req.body.lng, null, 21, req.body.id], (err, respon) => {
       if (err)
         res.status(500).send('Failed to add asset to map.');
       else
