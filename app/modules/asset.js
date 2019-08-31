@@ -104,11 +104,8 @@ module.exports = function(app, client, VerifyToken) {
 
    // Get history for one asset
    app.get('/asset/history/read/id', VerifyToken, (req, res) => {
-    client.query('SELECT l.move_date, l.move_user_label,l.status_label, a.unit_number '
-                +'FROM public.asset_log l ' 
-                +'LEFT JOIN public.asset a ON a.id = l.asset_id ' 
-                +'WHERE l.asset_id = ' 
-                + req.query.id,
+    client.query('SELECT * FROM public.asset_log '  
+                +'WHERE unit_number = ' + req.query.id,
       (err, respon) => {
       if (err) 
         return res.status(500).send("There was a problem getting the history log for this asset.") 
@@ -118,33 +115,15 @@ module.exports = function(app, client, VerifyToken) {
   });
 
   // Get all history
-  // app.get('/asset/history/read', VerifyToken, (req, res) => {
-  //   client.query('SELECT * FROM public.asset_log LIMIT ' 
-  //               + req.query.page_size + ' OFFSET ' 
-  //               + (req.query.page_size * req.query.page_index),
-  //     (err, respon) => {
-  //     if (err)
-  //       return res.status(500).send("There was a problem getting the history log.")
-  //     else
-  //       res.send(respon.rows);
-  //   });
-  // });
-
-
-  // Get all history
   app.get('/asset/history/read', VerifyToken, (req, res) => {
-    console.log(req.query)
-    client.query('SELECT l.move_date, l.move_user_label,l.status_label, a.unit_number '
-                +'FROM public.asset_log l ' 
-                +'LEFT JOIN public.asset a ON a.id = l.asset_id ' ,
-                + req.query.page_size + ' OFFSET '
+    client.query('SELECT * FROM public.asset_log LIMIT ' 
+                + req.query.page_size + ' OFFSET ' 
                 + (req.query.page_size * req.query.page_index),
       (err, respon) => {
-      if (err) {
-        console.log(err)
-        return res.status(500).send("There was a problem getting the history log.") }
-      else {
-        res.send(respon.rows) };
+      if (err)
+        return res.status(500).send("There was a problem getting the history log.")
+      else
+        res.send(respon.rows);
     });
   });
 
