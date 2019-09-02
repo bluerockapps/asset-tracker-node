@@ -55,16 +55,14 @@ module.exports = function(app, client, VerifyToken) {
                 +'LEFT JOIN public.media m ON a.category_id = m.category_id '
                 +'WHERE a.status_id = ($1) AND a.date_archived is null',
       [req.query.id],(err, respon) => {
-      if (err) {
+      if (err)
         return res.status(500).send("There was a problem getting statuses.")
-    } else {
-      console.log(respon.rows)
-        res.send(respon.rows); }
+      else
+        res.send(respon.rows);
     });
   });
 
   //Get asset by category_id
-
   app.get('/asset/category', VerifyToken, (req, res) => {
     client.query('SELECT a.id, a.name, a.unit_number, a.lat, a.lng, a.date_created, '
                 +'a.yard_id, c.category, s.status, c.id as category_id, m.id as image, '
@@ -74,12 +72,10 @@ module.exports = function(app, client, VerifyToken) {
                 +'LEFT JOIN public.media m ON a.category_id = m.category_id '
                 +'WHERE a.category_id = ($1) AND a.date_archived is null',
       [req.query.id],(err, respon) => {
-      if (err) {
-        console.log(err)
+      if (err)
         return res.status(500).send("There was a problem getting categories.")
-    } else {
-      console.log(respon.rows)
-        res.send(respon.rows); }
+      else
+        res.send(respon.rows);
     });
   });
 
@@ -145,7 +141,6 @@ module.exports = function(app, client, VerifyToken) {
 
   // Update asset
   app.put('/asset/update', VerifyToken, (req, res) => {
-    console.log(req.body)
     var query = 'UPDATE public.asset SET name = ($2), unit_number = ($3), '
                 +'category_id = ($4), status_id = ($5) WHERE id = ($1)'
     client.query(query, [req.body.id, req.body.name, req.body.unit_number,
@@ -171,7 +166,6 @@ module.exports = function(app, client, VerifyToken) {
 
   // Add asset to map
   app.put('/asset/map/add', VerifyToken, (req, res) => {
-    console.log(req.body)
     var query = 'UPDATE public.asset SET lat = ($1), lng = ($2), yard_id = ($3), status_id = ($4) '
                +'WHERE id = ($5)'
     client.query(query, [req.body.lat, req.body.lng, null, 21, req.body.id], (err, respon) => {

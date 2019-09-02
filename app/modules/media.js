@@ -58,11 +58,8 @@ module.exports = function(app, client, VerifyToken) {
     client.query(query, [req.body.file_name, req.body.description, 
                         req.body.category_id, req.body.id], 
       (err, respon) => {
-        if (err){
-          console.log(err)
+        if (err)
           res.status(500).send('Failed to update status.');
-        }
-          
         else
           res.status(200).send(respon.rows);
     });
