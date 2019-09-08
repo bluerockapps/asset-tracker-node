@@ -33,12 +33,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+//images directory
 app.use(express.static('assets'));
 
 //routes
 require('./app/routes')(app, pg, bluerockappsAPI);
 
-// server run
+//server run
 const port = 8000;
 app.listen(port, () => {
   console.log('We are live on ' + port);

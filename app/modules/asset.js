@@ -8,7 +8,8 @@ module.exports = function(app, client, VerifyToken) {
                 +'LEFT JOIN public.category c ON a.category_id = c.id '
                 +'LEFT JOIN public.asset_status s ON a.status_id = s.id '
                 +'LEFT JOIN public.media m ON a.category_id = m.category_id '
-                +'WHERE a.tenant_id = ($1) AND a.date_archived is null',
+                +'WHERE a.tenant_id = ($1) AND a.date_archived is null '
+                +'AND m.date_archived is null',
       [req.query.tenant_id],(err, respon) => {
       if (err)
         return res.status(500).send("There was a problem getting assets.")

@@ -11,8 +11,6 @@ const role       = require('../modules/role.js');
 const yard       = require('../modules/yard.js');
 const status     = require('../modules/status.js');
 const media      = require('../modules/media.js');
-// const xeroapi    = require('../modules/api/xero-api.js');
-// const stripeapi  = require('../modules/api/stripe-api.js');
 
 module.exports = function(app, pg, bluerockappsAPI) {
   auth       (app, pg, bluerockappsAPI, VerifyToken);
@@ -26,6 +24,4 @@ module.exports = function(app, pg, bluerockappsAPI) {
   yard       (app, pg, VerifyToken);
   status     (app, pg, VerifyToken);
   media      (app, pg, VerifyToken);
-  // stripeapi   (app, db, stripe);
-  // xeroapi     (app, db, xero);
 };
