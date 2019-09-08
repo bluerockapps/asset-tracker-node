@@ -18,15 +18,13 @@ module.exports = function(app, client, VerifyToken) {
 
   // Get asset map security
   app.get('/security/asset/map', VerifyToken, (req, res) => {
-    console.log(req.query)
     client.query('SELECT asset_map_update, asset_map_read '
                 +'FROM public.permission '
                 +'WHERE tenant_id = ($1) AND role_id = ($2)', 
                 [req.query.tenant_id, req.query.role_id], 
       (err, respon) => {
-      if (err) {
-        console.log(err)
-        res.status(500).send('Failed to return security roles.') }
+      if (err)
+        res.status(500).send('Failed to return security roles.');
       else
         res.status(200).send(respon.rows[0]);
     });

@@ -105,7 +105,7 @@ module.exports = function(app, client, VerifyToken) {
       (err, respon) => {
       if (err) 
         return res.status(500).send("There was a problem getting the history log for this asset.") 
-      else
+      else 
         res.send(respon.rows);
     });
   });
