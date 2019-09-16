@@ -31,3 +31,7 @@ Tokens are created using a `consumersecret` string located in the configuration 
 ## Running the services
 
 Run `node server`, the app will listen on port 8000.
+
+## License & copyright
+
+Licensed under the [MIT License](LICENSE).
